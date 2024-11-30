@@ -1,0 +1,152 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  height: 100%;
+  Helvetica
+  display: cover;
+  justify-content: center;
+  align-items: center;
+  background-image: url('keycloak-bg.png');
+  color: #fff;
+  background-size: 1300px 1000px; /* Sets width to 300px and height to 200px */
+  
+  
+}
+
+.background {
+  text-align: center;
+  padding: 20px; 
+}
+
+.logo-container {
+  margin-bottom: 20px;
+  margin-top: 70px;
+  
+}
+
+.logo {
+  width: 400px;
+  height:500px,
+  
+
+}
+
+h1, h2 {
+  
+  /*font-family: Helvetica;*/
+  font-family: 'Roboto Light', sans-serif;
+  font-weight: 50;
+  opacity: 0.7;
+  letter-spacing: 5px;
+  font-size: 22px;
+  margin-top: 25px;
+  
+
+}
+
+.login-box {
+  background: #fff;
+  color: #333;
+  padding: 20px;
+  width: 500px;
+  height:350px;
+  
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  text-align: left;
+  align-content: center;
+  margin-left:370px ;
+  margin-top: 80px;
+  
+  border-top: 4px solid #007bff ;
+  
+  
+  
+  
+}
+
+h3 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-family: 'Roboto Light', sans-serif;
+  font-weight: 50;
+  font-size: 24px;
+  margin-top: -10px;
+  opacity: 0.8;
+  margin-bottom: 20px;
+  
+}
+
+label {
+  font-size: 12px;
+  font-family: 'Roboto Light', sans-serif;
+  margin-left: 25px;
+  
+  
+}
+
+input[type="text"], input[type="password"] {
+  
+  padding: 8px;
+  margin: 8px 0 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  border-bottom: 1px solid #ccc; /* Adjust color and thickness as needed */
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  margin-left: 25px;
+  width: 420px;
+  margin-top: -5px;
+}
+
+.password-container {
+  display: flex;
+  align-items: center;
+}
+
+.toggle-password {
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-left: -25px;
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.forgot-password {
+  font-size: 12px;
+  color: #007bff;
+  text-decoration: none;
+  display: block;
+  text-align: right;
+  font-family: 'Roboto Light', sans-serif;
+  margin-bottom: 20px;
+  margin-right : 25px;
+  margin-top: -5px;
+  
+}
+
+.signin-button {
+  width: 420px;
+  background-color: #0056b3;
+  color: white;
+  padding: 10px;
+  border: none;
+  
+  cursor: pointer;
+  font-family: 'Roboto Light', sans-serif;
+  font-weight: 50;
+  font-size: 14px;
+  opacity: 0.9;
+  margin-left: 25px;
+  
+}
+
+.signin-button:hover {
+  background-color: #0056b3;
+}
+

@@ -1,0 +1,155 @@
+/* Base styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+}
+
+.background {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: url('background-image.jpg') no-repeat center center/cover;
+}
+
+.logo-container {
+  text-align: center;
+  margin-bottom: 20px;
+  margin-top: -55px;
+}
+
+.logo {
+  width: 270px;
+  position: absolute;
+  top:40px;
+  left:15px;
+  right:0;
+}
+
+h2 {
+  text-align: left;
+  
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-weight: 76;
+  font-size: 22px;
+  letter-spacing: 3px;
+  
+  position: absolute;
+  opacity: 0.7;
+  top:120px;
+  left:15px;
+  right:0;
+  ;
+  
+  
+}
+
+/* Login box styles */
+.login-box {
+  background: rgba(255, 255, 255, 0.8);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+}
+
+h3 {
+  text-align: center;
+  
+  font-family: 'Roboto Light', sans-serif;
+  font-weight: 50;
+  font-size: 18px;
+  margin-bottom: 40px;
+  opacity: 0.6;
+  
+  
+  
+  
+  
+  
+}
+
+label {
+  font-weight: thin;
+  
+  margin-top: 10px;
+  display: block;
+  font-size: 12px;
+  font-family: 'Roboto Light', sans-serif;
+  margin-left: 25px;
+  margin-bottom: 5px;
+  opacity: 0.8;
+}
+
+input {
+  
+  padding: 10px;
+  margin-bottom: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px;
+  margin: 8px 0 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  border-bottom: 1px solid #ccc; /* Adjust color and thickness as needed */
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  margin-left: 25px;
+  width: 290px;
+  margin-top: -10px;
+  
+}
+
+.password-container {
+  position: relative;
+}
+
+.toggle-password {
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-left: -25px;
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.forgot-password {
+  font-size: 12px;
+  color: #007bff;
+  text-decoration: none;
+  display: block;
+  text-align: right;
+  font-family: 'Roboto Light', sans-serif;
+  margin-bottom: 20px;
+  margin-right : 25px;
+  margin-top: -5px;
+}
+
+.forgot-password:hover {
+  text-decoration: underline;
+}
+
+.signin-button {
+  width: 310px;
+  background-color: #0056b3;
+  color: white;
+  padding: 8px;
+  border: none;
+  margin-left: 25px;
+  
+  cursor: pointer;
+  font-family: 'Roboto Light', sans-serif;
+  font-weight: 50;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.signin-button:hover {
+  background-color: #0056b3;
+}
+
