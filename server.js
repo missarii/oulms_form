@@ -51,7 +51,7 @@ app.post('/submit-form', async (req, res) => {
     await newUser.save();
 
     // Redirect on success
-    res.redirect('https://forms.gle/NEKUmE4s8egt6LwM8');
+    res.redirect('https://forms.gle/pzCXhatTGPDQ8EX68');
   } catch (error) {
     console.error('Error saving data to MongoDB:', error);
     res.status(500).send('<h3 style="color: red;">Server error. Please try again later.</h3>');
