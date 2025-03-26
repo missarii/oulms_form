@@ -1,6 +1,9 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const https = require('https');
+const fs = require('fs');
+const path = require('path');
 
 const app = express();
 const PORT = 3000;
@@ -58,8 +61,13 @@ app.post('/submit-form', async (req, res) => {
   }
 });
 
-// Start the server
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
+// Update the paths to point to the ssl folder in the same directory as server.js
+const options = {
+  key: fs.readFileSync(path.join(__dirname, 'ssl', 'private.key')),  // Path to private key in ssl folder
+  cert: fs.readFileSync(path.join(__dirname, 'ssl', 'certificate.crt')), // Path to certificate in ssl folder
+};
 
+// Start the HTTPS server
+https.createServer(options, app).listen(PORT, () => {
+  console.log(`Server is running securely on https://localhost:${PORT}`);
+});
