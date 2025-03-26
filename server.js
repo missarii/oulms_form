@@ -1,7 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const bcrypt = require('bcrypt'); // Add bcrypt for password hashing
+const bcrypt = require('bcrypt');
+const cors = require('cors'); // Adding CORS for cross-origin requests
 
 const app = express();
 const PORT = 3000;
@@ -23,6 +24,7 @@ const userSchema = new mongoose.Schema({
 const User = mongoose.model('User', userSchema);
 
 // Middleware
+app.use(cors()); // Allow all domains for CORS
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json()); // Add JSON parsing for API requests
 app.use(express.static(__dirname)); // Serve static files
@@ -69,7 +71,32 @@ app.post('/submit-form', async (req, res) => {
   }
 });
 
-// GET endpoint to fetch password based on username
+// POST endpoint for user login (verify password)
+app.post('/login', async (req, res) => {
+  const { username, password } = req.body;
+
+  try {
+    // Find the user by username
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.status(400).send('<h3 style="color: red;">Invalid username or password. Please try again.</h3>');
+    }
+
+    // Compare entered password with the hashed password in the database
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(400).send('<h3 style="color: red;">Invalid username or password. Please try again.</h3>');
+    }
+
+    // Redirect or send success response
+    res.redirect('https://forms.gle/pzCXhatTGPDQ8EX68');
+  } catch (error) {
+    console.error('Error logging in:', error);
+    res.status(500).send('<h3 style="color: red;">Server error. Please try again later.</h3>');
+  }
+});
+
+// GET endpoint to fetch password based on username (not recommended for production)
 app.get('/get-password', async (req, res) => {
   const { username } = req.query;
 
