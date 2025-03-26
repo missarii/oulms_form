@@ -1,9 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const https = require('https');
-const fs = require('fs');
-const path = require('path');
+const bcrypt = require('bcrypt'); // Add bcrypt for password hashing
 
 const app = express();
 const PORT = 3000;
@@ -13,44 +11,54 @@ mongoose.connect('mongodb+srv://missari:missari123@cluster0.2uqs2.mongodb.net/?r
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
-.then(() => console.log('Connected to MongoDB'))
-.catch((error) => console.error('MongoDB connection error:', error));
+  .then(() => console.log('Connected to MongoDB'))
+  .catch((error) => console.error('MongoDB connection error:', error));
 
 // Define User schema
 const userSchema = new mongoose.Schema({
-  username: String,
-  password: String,
+  username: { type: String, unique: true }, // Ensure username is unique
+  password: String, // Will store hashed password
 });
 
 const User = mongoose.model('User', userSchema);
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static(__dirname)); // Serve static files from the root directory
+app.use(express.json()); // Add JSON parsing for API requests
+app.use(express.static(__dirname)); // Serve static files
 
 // Serve index.html as the homepage
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 });
 
-// Serve login.html when accessing /login route
+// Serve login.html when accessing /submit-form route
 app.get('/submit-form', (req, res) => {
   res.sendFile(__dirname + '/login.html');
 });
 
-// POST endpoint to handle login form submission
+// POST endpoint to handle login form submission (register user)
 app.post('/submit-form', async (req, res) => {
   const { username, password } = req.body;
 
   // Validation for empty username or password
   if (!username || !password) {
-    res.status(400).send('<h3 style="color: red;">Invalid username or password. Please try again.</h3>');
-    return;
+    return res.status(400).send('<h3 style="color: red;">Invalid username or password. Please try again.</h3>');
   }
 
   try {
+    // Check if username already exists
+    const existingUser = await User.findOne({ username });
+    if (existingUser) {
+      return res.status(400).send('<h3 style="color: red;">Username already exists. Please choose another.</h3>');
+    }
+
+    // Hash the password before saving
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
     // Save user data to MongoDB
-    const newUser = new User({ username, password });
+    const newUser = new User({ username, password: hashedPassword });
     await newUser.save();
 
     // Redirect on success
@@ -61,13 +69,26 @@ app.post('/submit-form', async (req, res) => {
   }
 });
 
-// Update the paths to point to the ssl folder in the same directory as server.js
-const options = {
-  key: fs.readFileSync(path.join(__dirname, 'ssl', 'private.key')),  // Path to private key in ssl folder
-  cert: fs.readFileSync(path.join(__dirname, 'ssl', 'certificate.crt')), // Path to certificate in ssl folder
-};
+// GET endpoint to fetch password based on username
+app.get('/get-password', async (req, res) => {
+  const { username } = req.query;
 
-// Start the HTTPS server
-https.createServer(options, app).listen(PORT, () => {
-  console.log(`Server is running securely on https://localhost:${PORT}`);
+  try {
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.status(404).json({ error: 'Username not found' });
+    }
+
+    // For demonstration purposes, send the plaintext password (not secure in practice)
+    // In a real app, you'd never send the password back; you'd verify it server-side
+    res.json({ password: user.password }); // This sends the hashed password
+  } catch (error) {
+    console.error('Error fetching password:', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// Start the server
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
 });
