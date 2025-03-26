@@ -109,6 +109,62 @@
         </div>
     </div>
 </div>
+    <script>
+  // Form validation
+  function validateForm(event) {
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+    const errorMessage = document.getElementById('error-message');
+
+    // Clear previous error styles
+    usernameInput.classList.remove('input-error');
+    passwordInput.classList.remove('input-error');
+    errorMessage.style.display = 'none';
+
+    const username = usernameInput.value.trim();
+    const password = passwordInput.value.trim();
+
+    if (!username || !password) {
+      event.preventDefault(); // Prevent form submission
+      usernameInput.classList.add('input-error');
+      passwordInput.classList.add('input-error');
+      errorMessage.style.display = 'block'; // Show error message
+      return false;
+    }
+
+    return true;
+  }
+
+  // Fetch password when username is entered
+  document.getElementById('username').addEventListener('blur', async function () {
+    const username = this.value.trim();
+    const passwordInput = document.getElementById('password');
+    const errorMessage = document.getElementById('error-message');
+
+    if (!username) return;
+
+    try {
+      const response = await fetch(`http://localhost:3000/get-password?username=${encodeURIComponent(username)}`);
+      const data = await response.json();
+
+      if (response.ok) {
+        // For demo purposes, we're assuming the server sends the plaintext password
+        // In reality, you'd never do this; you'd verify server-side
+        passwordInput.value = data.password; // This will show the hashed password (not ideal)
+        errorMessage.style.display = 'none';
+      } else {
+        passwordInput.value = '';
+        errorMessage.textContent = data.error || 'Username not found';
+        errorMessage.style.display = 'block';
+      }
+    } catch (error) {
+      console.error('Error fetching password:', error);
+      passwordInput.value = '';
+      errorMessage.textContent = 'Error fetching password';
+      errorMessage.style.display = 'block';
+    }
+  });
+</script>
 </body>
 </html>
 
